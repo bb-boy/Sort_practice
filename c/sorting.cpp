@@ -6,8 +6,10 @@ void swap(int &a, int &b) {                           //交换函数
 	a = t;
 }
 
-void arr_print(int a[]) {                             //打印数组
-	for (int i = 0; i < sizeof(a); i++)
+void arr_print(int a[],int n) {       //打印数组
+	
+	
+	for (int i = 0; i < n; i++)
 		printf("%d\t", a[i]);
 	printf("\n");
 }
@@ -95,26 +97,113 @@ void binary_insertion_sort(int a[], int n) {
 	}
 }
 
+/*shell排序*/
+void shellsort(int a[], int n) {
+
+	
+	for (int gap = n / 2; gap > 0; gap = gap / 2) {
+		for (int i = gap; i < n; i++) {
+			int key = a[i];
+			int j;
+			if (a[i - gap] > key) {
+				for (j = i - gap; j>=0&&key < a[j]; j =j- gap) {
+					a[j + gap] = a[j];
+				}
+				a[j + gap] = key;
+			}
+		}
+	}
+}
+
+
+
+/*选择排序*/
+void select_sort(int a[], int n) {
+	int i, j, min;
+	for (i = 0; i < n - 1; i++) {
+		min = i;
+		for (j = i; j < n; j++) {
+			if (a[j] < a[min])
+				/*swap(a[min], a[j]);*/
+				min = j;
+		}
+		if (i != min)
+			swap(a[min], a[i]);
+
+	}
+}
+
+
+/*堆排序*/
+
+void build_heap(int a[],int k ,int n) {
+		int parent=k;
+		int son = 2 * parent + 1;                                            
+		while (son < n) {
+			if ((son + 1) < n && a[son] < a[son + 1])
+				son++;
+			if (a[parent] < a[son]) {
+				swap(a[parent], a[son]);
+				parent = son;
+				son = 2 * parent + 1;
+			}
+			else
+				break;
+		}
+	
+}
+
+void heap_sort(int a[], int n) {
+	for (int p = n / 2 - 1; p >= 0; p--) {                 //循环各个父节点，将每个子树变为大根树
+		build_heap(a, p, n);                                
+	}
+	swap(a[0], a[n - 1]);									//将root和最后一个叶子节点交换
+	for (int len = n - 1; len > 0; len--) {
+		build_heap(a, 0, len);                             //去除最后一个节点，将剩下的树变为大根树
+		swap(a[0], a[len - 1]);                            //交换
+	}
+	
+
+
+
+}
+
+
+
 
 int main() {
 	int A[8] = { 49,38,65,97,76,13,27,49 };
-	arr_print(A);
+	arr_print(A,8);
+	
+	int B[10] = { 3,87,2,93,78,56,61,38,12,40 };
+	
+	//arr_print(A);
 
 	/*冒泡排序*/
 	/*BubbleSort(A);
-	arr_print(A);*/    
+	arr_print(A,8);*/
 
 	/*快排*/
 	/*QuickSort(A, 0, 7);
-	arr_print(A);*/
+	arr_print(A,8);*/
 
 	/*插入排序*/
 	/*insert_sort(A, 8);
-	arr_print(A);*/
+	arr_print(A,8);*/
 
 	/*折半插入排序*/
-	binary_insertion_sort(A, 8);
-	arr_print(A);
+	/*binary_insertion_sort(A, 8);
+	arr_print(A,8);*/
 
-	
+	/*希尔排序*/
+	/*shellsort(A, 8);
+	arr_print(A,8);*/
+
+	/*选择排序*/
+	/*select_sort(A, 8);
+	arr_print(A,8);*/
+
+	/*堆排*/
+	heap_sort(B, 10);
+	arr_print(B,10);
 }
