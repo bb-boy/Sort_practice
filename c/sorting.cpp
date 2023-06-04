@@ -1,4 +1,5 @@
 #include <stdio.h>
+#define N 20
  
 void swap(int &a, int &b) {                           //交换函数
 	int t = b;
@@ -163,13 +164,42 @@ void heap_sort(int a[], int n) {
 		swap(a[0], a[len - 1]);                            //交换
 	}
 	
-
-
-
 }
 
 
+/*归并排序*/
+void merge(int A[], int low, int mid, int high) {
+	
+	int B[N];
+	for (int i = 0; i <= high; i++)  //复制数组
+		B[i] = A[i];
 
+	int i, j,k;
+	for (i = low, k = low, j = mid + 1; j <= high && i <= mid; k++) {
+		if (B[i] < B[j])
+			A[k] = B[i++];
+		else
+			A[k] = B[j++];
+	}
+
+	while (i <= mid ) {
+		A[k++] = B[i++];
+	}
+	while (j <= high) {
+		A[k++] = B[j++];
+	}
+
+}
+
+void mergesort(int A[], int low,int high) {
+	
+	if(low<high){
+		int mid = (low + high) / 2;
+		mergesort(A, low, mid);
+		mergesort(A, mid+1,high);
+		merge(A, low, mid, high);
+		}
+}
 
 int main() {
 	int A[8] = { 49,38,65,97,76,13,27,49 };
@@ -204,6 +234,10 @@ int main() {
 	arr_print(A,8);*/
 
 	/*堆排*/
-	heap_sort(B, 10);
-	arr_print(B,10);
+//	heap_sort(B, 10);
+	//arr_print(B,10);
+
+	
+	mergesort(B, 0, 9);
+	arr_print(B, 10);
 }
